@@ -126,7 +126,7 @@ async function processDocument() {
     if (!response.ok) throw { message: data.error || "Processing failed", detail: data.detail };
     
     rawJsonData = data;
-    sessionStorage.setItem("synapx_claim_result", JSON.stringify(data));
+    sessionStorage.setItem("fnol_claim_result", JSON.stringify(data));
     await delay(500);
     
     // Hide full report initially
@@ -320,7 +320,7 @@ function showError(msg, detail = null) {
 function clearResults() {
   clearFile();
   rawJsonData = null;
-  sessionStorage.removeItem("synapx_claim_result");
+  sessionStorage.removeItem("fnol_claim_result");
   resetStages(["upload", "extract", "validate", "route"]);
   showView(startScreen);
 }
@@ -337,7 +337,7 @@ function delay(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
 // Restore state on reload
 document.addEventListener("DOMContentLoaded", () => {
-  const saved = sessionStorage.getItem("synapx_claim_result");
+  const saved = sessionStorage.getItem("fnol_claim_result");
   if (saved) {
     try {
       const data = JSON.parse(saved);
@@ -348,7 +348,7 @@ document.addEventListener("DOMContentLoaded", () => {
       renderResults(data);
       showView(resultsSection);
     } catch (e) {
-      sessionStorage.removeItem("synapx_claim_result");
+      sessionStorage.removeItem("fnol_claim_result");
     }
   }
 });

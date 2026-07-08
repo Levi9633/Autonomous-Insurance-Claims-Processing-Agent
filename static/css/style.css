@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════
-   Synapx – Claims Intelligence
+   Autonomous FNOL - Claims Intelligence
    Liquid Glass (Dark Mode) Theme
    ═══════════════════════════════════════════════════ */
 
@@ -89,7 +89,9 @@ body {
 
 .brand-logo-img {
   height: 32px;
-  width: auto;
+  width: 32px;
+  object-fit: cover;
+  object-position: left;
   opacity: 0.9;
   transition: opacity 0.3s ease;
 }

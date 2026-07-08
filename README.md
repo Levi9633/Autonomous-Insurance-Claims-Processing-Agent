@@ -13,7 +13,7 @@
 
 <br>
 
-Synapx is a state-of-the-art First Notice of Loss (FNOL) automation engine designed to drastically reduce manual overhead in the insurance lifecycle. By leveraging multi-modal LLM extraction pipelines, it ingests raw unstructured claims documents, maps them to strict deterministic JSON schemas, and dynamically calculates optimal processing routes (e.g., Fast-track, Specialist Queue). The architecture provides immediate, scalable document intelligence wrapped in an ultra-premium, zero-friction user interface.
+This agent is a state-of-the-art First Notice of Loss (FNOL) automation engine designed to drastically reduce manual overhead in the insurance lifecycle. By leveraging multi-modal LLM extraction pipelines, it ingests raw unstructured claims documents, maps them to strict deterministic JSON schemas, and dynamically calculates optimal processing routes (e.g., Fast-track, Specialist Queue). The architecture provides immediate, scalable document intelligence wrapped in an ultra-premium, zero-friction user interface.
 
 ---
 
@@ -77,7 +77,7 @@ graph TD
 ## 📂 Project Directory Structure
 
 ```ascii
-Synapx/
+Autonomous-Agent/
 ├── app/                        # Backend Application Core
 │   ├── prompts/                # LLM System Prompts
 │   │   └── extraction_prompt.txt
@@ -110,8 +110,8 @@ Ensure you have the following installed locally:
 ### 1. Clone & Environment
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/synapx.git
-cd synapx
+git clone https://github.com/Levi9633/Autonomous-Insurance-Claims-Processing-Agent.git
+cd Autonomous-Insurance-Claims-Processing-Agent
 
 # Create and activate a virtual environment
 python -m venv venv
