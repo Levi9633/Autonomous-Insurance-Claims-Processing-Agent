@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Autonomous Insurance Claims Processing Agent</title>
+    <meta name="description" content="Autonomous FNOL claims processor." />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=BJCree:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+  <body>
+    <!-- Top Left Logo -->
+    <a href="/" class="brand-logo-container">
+      <img src="https://www.synapx.com/wp-content/uploads/Synapx-Logo-Ice-Blue-and-White.svg" alt="Synapx Logo" class="brand-logo-img">
+    </a>
+
+    <!-- Liquid Background Mesh -->
+    <div class="bg-mesh"></div>
+
+    <!-- Main Container -->
+    <div class="app-wrapper">
+      <!-- ── START / UPLOAD SCREEN ────────────────────────────── -->
+      <div id="startScreen" class="view-section active-view">
+        <div class="hero-header">
+          <h1 class="brand-title">Autonomous Insurance Claims<br>Processing Agent</h1>
+        </div>
+
+        <div class="upload-container">
+          <div
+            id="dropZone"
+            class="drop-zone"
+            role="button"
+            tabindex="0"
+            aria-label="Upload FNOL document"
+            onclick="document.getElementById('fileInput').click()"
+            onkeydown="
+              if (event.key === 'Enter' || event.key === ' ')
+                document.getElementById('fileInput').click();
+            "
+          >
+            <input
+              type="file"
+              id="fileInput"
+              accept=".pdf,.txt"
+              class="sr-only"
+            />
+
+            <!-- Empty State -->
+            <div id="dropPlaceholder" class="drop-content">
+              <div class="upload-icon">
+                <svg
+                  width="28"
+                  height="28"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+                  />
+                </svg>
+              </div>
+              <p class="upload-title">Click to upload</p>
+            </div>
+
+            <!-- File Selected State -->
+            <div id="filePreview" class="drop-content hidden">
+              <div class="upload-icon file-icon">
+                <svg
+                  width="28"
+                  height="28"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                  />
+                </svg>
+              </div>
+              <p id="fileName" class="file-name"></p>
+              <p id="fileSize" class="file-size"></p>
+              <button
+                id="removeFile"
+                onclick="clearFile(event)"
+                class="btn-remove"
+              >
+                Remove file
+              </button>
+            </div>
+          </div>
+
+          <button
+            id="processBtn"
+            onclick="processDocument()"
+            class="btn-primary"
+            disabled
+          >
+            <span id="processBtnText">Analyze Document</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── LOADING SCREEN ───────────────────────────────────── -->
+      <div id="loadingSection" class="view-section hidden">
+        <div class="loading-container">
+          <div class="spinner-large"></div>
+          <h2 class="loading-title">Processing Claim</h2>
+          <p id="loadingStage" class="loading-message">Initializing...</p>
+
+          <div class="process-stages">
+            <div id="stage-upload" class="process-stage">
+              <span class="stage-dot"></span> Uploading
+            </div>
+            <div class="stage-line"></div>
+            <div id="stage-extract" class="process-stage">
+              <span class="stage-dot"></span> Extracting
+            </div>
+            <div class="stage-line"></div>
+            <div id="stage-validate" class="process-stage">
+              <span class="stage-dot"></span> Validating
+            </div>
+            <div class="stage-line"></div>
+            <div id="stage-route" class="process-stage">
+              <span class="stage-dot"></span> Routing
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── RESULTS SCREEN ───────────────────────────────────── -->
+      <div id="resultsSection" class="view-section hidden">
+        <!-- Top Action Bar -->
+        <div class="results-actions">
+          <button onclick="clearResults()" class="btn-secondary">
+            <svg
+              width="16"
+              height="16"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+              />
+            </svg>
+            Process Another
+          </button>
+        </div>
+
+        <!-- Primary Output (Route & Reason) -->
+        <div class="primary-result-card">
+          <div class="result-header">
+            <p class="section-label">Determined Route</p>
+            <div id="routeBadge" class="route-badge-huge"></div>
+          </div>
+
+          <div class="reasoning-block">
+            <p class="section-label">Routing Reasoning</p>
+            <p id="reasoningText" class="reasoning-text-large"></p>
+          </div>
+
+          <div class="summary-json-block">
+            <p class="section-label">Structured Output (Route & Reason)</p>
+            <pre
+              class="json-viewer-small"
+            ><code id="summaryJsonContent"></code></pre>
+          </div>
+
+          <div class="action-row">
+            <button
+              id="fullReportBtn"
+              onclick="toggleFullReport()"
+              class="btn-outline"
+            >
+              View Full Report
+            </button>
+          </div>
+        </div>
+
+        <!-- Full Report (Hidden by default) -->
+        <div id="fullReportSection" class="full-report-container hidden">
+          <!-- Stats Removed -->
+          <!-- Missing Fields Alert -->
+          <div id="missingFieldsCard" class="alert-box hidden">
+            <div class="alert-header">
+              <svg
+                width="20"
+                height="20"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                />
+              </svg>
+              <h3 class="alert-title">Missing Mandatory Fields</h3>
+              <span id="missingCountBadge" class="alert-badge"></span>
+            </div>
+            <div id="missingFieldsList" class="alert-chips"></div>
+          </div>
+
+          <!-- Extracted Fields Details -->
+          <div class="detail-card">
+            <div class="detail-header">
+              <h3 class="detail-title">Extracted Data</h3>
+            </div>
+            <div id="extractedFieldsContainer" class="fields-grid"></div>
+          </div>
+
+          <!-- Raw JSON -->
+          <div class="detail-card">
+            <div class="detail-header">
+              <h3 class="detail-title">Complete JSON Response</h3>
+              <button onclick="copyJson()" class="btn-text" id="copyJsonBtn">
+                Copy JSON
+              </button>
+            </div>
+            <div class="json-wrap">
+              <pre
+                class="json-viewer-large"
+              ><code id="jsonContent"></code></pre>
+            </div>
+          </div>
+        </div>
+        <!-- /fullReportSection -->
+      </div>
+      <!-- /resultsSection -->
+
+      <!-- Error Section -->
+      <div id="errorSection" class="view-section hidden">
+        <div class="error-container">
+          <div class="error-icon">
+            <svg
+              width="32"
+              height="32"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </div>
+          <h2 class="error-title">Processing Failed</h2>
+          <p id="errorMessage" class="error-msg"></p>
+          <p id="errorDetail" class="error-detail hidden"></p>
+          <button onclick="clearResults()" class="btn-secondary mt-6">
+            Try Again
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- /app-wrapper -->
+
+    <script src="/static/js/main.js"></script>
+  </body>
+</html>
