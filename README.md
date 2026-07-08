@@ -1,6 +1,4 @@
 <div align="center">
-  
-  <br>
   <h1><strong> Autonomous Insurance Claims Processing Agent</strong></h1>
 </div>
 
