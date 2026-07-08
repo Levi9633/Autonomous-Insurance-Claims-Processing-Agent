@@ -1,7 +1,7 @@
 <div align="center">
-  <img src="https://www.synapx.com/wp-content/uploads/Synapx-Logo-Ice-Blue-and-White.svg" alt="Synapx Logo" height="80">
+  
   <br>
-  <h1><strong>Synapx | Autonomous Insurance Claims Processing Agent</strong></h1>
+  <h1><strong> Autonomous Insurance Claims Processing Agent</strong></h1>
 </div>
 
 <div align="center">
