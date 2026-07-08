@@ -17,7 +17,7 @@ This agent is a state-of-the-art First Notice of Loss (FNOL) automation engine d
 
 ---
 
-## 🎨 User Interface & Experience
+## User Interface & Experience
 
 | Component | UI Design Styling | Functional Highlight |
 | :--- | :--- | :--- |
@@ -28,7 +28,7 @@ This agent is a state-of-the-art First Notice of Loss (FNOL) automation engine d
 
 ---
 
-## ⚡ Technical Pillars & Key Features
+## Technical Pillars & Key Features
 
 | Technical Pillar | Technology | Functional Specification |
 | :--- | :--- | :--- |
@@ -39,7 +39,7 @@ This agent is a state-of-the-art First Notice of Loss (FNOL) automation engine d
 
 ---
 
-## 📐 System Architecture
+## System Architecture
 
 ```mermaid
 graph TD
@@ -48,17 +48,17 @@ graph TD
     classDef ai fill:#312e81,stroke:#c084fc,stroke-width:2px,color:#ffffff;
     classDef storage fill:#1e1e1e,stroke:#60a5fa,stroke-width:2px,color:#ffffff;
 
-    subgraph Client ["🖥️ Presentation Layer"]
+    subgraph Client ["Presentation Layer"]
         UI["Web Interface (HTML/CSS/JS)"]:::frontend
         State["Session Storage"]:::storage
     end
 
-    subgraph Core ["⚙️ Processing Core"]
+    subgraph Core ["Processing Core"]
         API["FastAPI / Flask Backend"]:::backend
         PDF["Document Parser (PDF/Images)"]:::backend
     end
 
-    subgraph Intelligence ["🧠 LLM Engine"]
+    subgraph Intelligence ["LLM Engine"]
         LLM["Google AI Studio API"]:::ai
         Prompts["Prompt Engineering Module"]:::ai
     end
@@ -100,7 +100,7 @@ Autonomous-Agent/
 
 ---
 
-## 🚀 Setup & Installation Guide
+## Setup & Installation Guide
 
 ### Prerequisites
 Ensure you have the following installed locally:
@@ -138,7 +138,7 @@ The application will be accessible at `http://127.0.0.1:8000`.
 
 ---
 
-## 🧪 Verification and Testing
+## Verification and Testing
 
 To ensure the environment is configured properly and the LLM pipeline is active, run the test suite:
 
